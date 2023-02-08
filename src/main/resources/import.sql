@@ -1,0 +1,166 @@
+--
+-- -- Roles
+--
+-- insert into role(id, active, added_at, deleted, updated_at, added_by_id,
+--                  updated_by_id, description, name)
+-- values (1, true, now(), false, now(), null, null, 'system admin', 'ADMIN');
+--
+-- insert into role(id, active, added_at, deleted, updated_at, added_by_id,
+--                  updated_by_id, description, name)
+-- values (2, true, now(), false, now(), null, null, 'system mini admin', 'MINI_ADMIN');
+--
+-- insert into role(id, active, added_at, deleted, updated_at, added_by_id,
+--                  updated_by_id, description, name)
+-- values (3, true, now(), false, now(), null, null, 'system users', 'USER');
+--
+--
+-- -- Permissions of role 1
+--
+-- insert into role_permission(role_id, permission)
+-- values (1, 'ADD_USER');
+--
+-- insert into role_permission(role_id, permission)
+-- values (1, 'GET_USER');
+--
+-- insert into role_permission(role_id, permission)
+-- values (1, 'DELETE_USER');
+--
+-- insert into role_permission(role_id, permission)
+-- values (1, 'EDIT_USER');
+--
+-- insert into role_permission(role_id, permission)
+-- values (1, 'ADD_PRODUCT');
+--
+-- insert into role_permission(role_id, permission)
+-- values (1, 'GET_PRODUCT');
+--
+-- insert into role_permission(role_id, permission)
+-- values (1, 'EDIT_PRODUCT');
+--
+-- insert into role_permission(role_id, permission)
+-- values (1, 'DELETE_PRODUCT');
+--
+-- insert into role_permission(role_id, permission)
+-- values (1, 'ADD_CATEGORY');
+--
+-- insert into role_permission(role_id, permission)
+-- values (1, 'GET_CATEGORY');
+--
+-- insert into role_permission(role_id, permission)
+-- values (1, 'EDIT_CATEGORY');
+--
+-- insert into role_permission(role_id, permission)
+-- values (1, 'DELETE_CATEGORY');
+--
+-- insert into role_permission(role_id, permission)
+-- values (1, 'ADD_ORDER');
+--
+-- insert into role_permission(role_id, permission)
+-- values (1, 'GET_ORDER');
+--
+-- insert into role_permission(role_id, permission)
+-- values (1, 'EDIT_ORDER');
+--
+-- insert into role_permission(role_id, permission)
+-- values (1, 'DELETE_ORDER');
+--
+-- -- permissions of role 2
+--
+-- insert into role_permission(role_id, permission)
+-- values (2, 'ADD_PRODUCT');
+--
+-- insert into role_permission(role_id, permission)
+-- values (2, 'GET_PRODUCT');
+--
+-- insert into role_permission(role_id, permission)
+-- values (2, 'EDIT_PRODUCT');
+--
+-- insert into role_permission(role_id, permission)
+-- values (2, 'DELETE_PRODUCT');
+--
+-- insert into role_permission(role_id, permission)
+-- values (2, 'ADD_CATEGORY');
+--
+-- insert into role_permission(role_id, permission)
+-- values (2, 'GET_CATEGORY');
+--
+-- insert into role_permission(role_id, permission)
+-- values (2, 'EDIT_CATEGORY');
+--
+-- insert into role_permission(role_id, permission)
+-- values (2, 'DELETE_CATEGORY');
+--
+-- insert into role_permission(role_id, permission)
+-- values (2, 'ADD_ORDER');
+--
+-- insert into role_permission(role_id, permission)
+-- values (2, 'GET_ORDER');
+--
+-- insert into role_permission(role_id, permission)
+-- values (2, 'EDIT_ORDER');
+--
+-- insert into role_permission(role_id, permission)
+-- values (2, 'DELETE_ORDER');
+--
+-- -- permissions of role 3
+--
+-- insert into role_permission(role_id, permission)
+-- values (3, 'GET_ORDER');
+--
+-- insert into role_permission(role_id, permission)
+-- values (3, 'GET_PRODUCT');
+--
+-- insert into role_permission(role_id, permission)
+-- values (3, 'GET_CATEGORY');
+--
+-- -- Users
+--
+--
+-- --  Categories
+--
+-- insert into category(active, added_at, deleted, updated_at, added_by_id,
+--                      updated_by_id, description, name)
+--     values (true, now(), false, now(), 1, 1, ' all laptops ', 'laptop');
+--
+-- insert into category(active, added_at, deleted, updated_at, added_by_id,
+--                      updated_by_id, description, name)
+--     values (true, now(), false, now(), 1, 1, ' vegetables description ', 'vegetables');
+--
+-- insert into category(active, added_at, deleted, updated_at, added_by_id,
+--                      updated_by_id, description, name)
+--     values (true, now(), false, now(), 1, 1, ' fruits description ', 'fruits');
+--
+-- insert into category(active, added_at, deleted, updated_at, added_by_id,
+--                      updated_by_id, description, name)
+--     values (true, now(), false, now(), 1, 1, ' computers description ', 'computers');
+--
+-- insert into category(active, added_at, deleted, updated_at, added_by_id,
+--                      updated_by_id, description, name)
+--     values (true, now(), false, now(), 1, 1, ' mobile phones description ', 'mobile phones');
+--
+-- insert into category(active, added_at, deleted, updated_at, added_by_id,
+--                      updated_by_id, description, name)
+--     values (true, now(), false, now(), 1, 1, ' cars description ', 'cars');
+--
+-- insert into category(active, added_at, deleted, updated_at, added_by_id,
+--                      updated_by_id, description, name)
+--     values (true, now(), false, now(), 1, 1, ' books description ', 'books');
+--
+-- insert into category(active, added_at, deleted, updated_at, added_by_id,
+--                      updated_by_id, description, name)
+--     values (true, now(), false, now(), 1, 1, ' tvs description ', 'tvs');
+--
+-- insert into category(active, added_at, deleted, updated_at, added_by_id,
+--                      updated_by_id, description, name)
+--     values (true, now(), false, now(), 1, 1, ' sport description ', 'sport');
+--
+-- insert into category(active, added_at, deleted, updated_at, added_by_id,
+--                      updated_by_id, description, name)
+--     values (true, now(), false, now(), 1, 1, ' kids description ', 'kids');
+--
+-- insert into category(active, added_at, deleted, updated_at, added_by_id,
+--                      updated_by_id, description, name)
+--     values (true, now(), false, now(), 1, 1, ' monitors description ', 'monitors');
+--
+--
+--
