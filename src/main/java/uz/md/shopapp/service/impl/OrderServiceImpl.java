@@ -2,19 +2,14 @@ package uz.md.shopapp.service.impl;
 
 import jakarta.persistence.TypedQuery;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-import uz.md.shopapp.domain.Address;
-import uz.md.shopapp.domain.Order;
-import uz.md.shopapp.domain.OrderProduct;
-import uz.md.shopapp.domain.User;
+import uz.md.shopapp.domain.*;
 import uz.md.shopapp.domain.enums.OrderStatus;
 import uz.md.shopapp.dtos.ApiResult;
 import uz.md.shopapp.dtos.order.OrderAddDto;
 import uz.md.shopapp.dtos.order.OrderDto;
 import uz.md.shopapp.dtos.order.OrderProductAddDto;
-import uz.md.shopapp.dtos.request.SimpleSearchRequest;
 import uz.md.shopapp.dtos.request.SimpleSortRequest;
 import uz.md.shopapp.exceptions.IllegalRequestException;
 import uz.md.shopapp.exceptions.NotFoundException;
@@ -90,35 +85,49 @@ public class OrderServiceImpl implements OrderService {
 
         order.setUser(user);
         order.setAddress(address);
-        order.setOverallPrice(dto.getOverallPrice());
         order.setActive(true);
         order.setDeleted(false);
         orderRepository.save(order);
         List<OrderProduct> orderProducts = new ArrayList<>();
         for (OrderProductAddDto addDto : dto.getOrderProducts()) {
             OrderProduct orderProduct = orderProductMapper.fromAddDto(addDto);
-            orderProduct.setOrder(order);
-            orderProduct.setProduct(productRepository
+
+            Product product = productRepository
                     .findById(addDto.getProductId())
-                    .orElseThrow(() -> new NotFoundException("ORDER_PRODUCT_NOT_FOUND")));
+                    .orElseThrow(() -> new NotFoundException("ORDER_PRODUCT_NOT_FOUND"));
+
+            orderProduct.setOrder(order);
+            orderProduct.setProduct(product);
+            orderProduct.setPrice(product.getPrice() * orderProduct.getQuantity());
             orderProductRepository.save(orderProduct);
             orderProducts.add(orderProduct);
         }
 
         order.setOrderProducts(orderProducts);
 
+        double overAll = sumOverAllPrice(orderProducts);
+        order.setOverallPrice(overAll);
+
         return ApiResult
                 .successResponse(orderMapper
                         .toDto(order));
     }
 
+    private double sumOverAllPrice(List<OrderProduct> orderProducts) {
+        double sum = 0;
+        for (OrderProduct orderProduct : orderProducts) {
+            sum += orderProduct.getProduct().getPrice() * orderProduct.getQuantity();
+        }
+        return sum;
+    }
+
     @Override
     public ApiResult<Void> delete(Long id) {
-        if (!orderRepository.existsById(id)) {
+        if (orderRepository.existsById(id)) {
             orderRepository.deleteById(id);
-            throw new NotFoundException("ORDER_DOES_NOT_EXIST");
+            return ApiResult.successResponse();
         }
-        return ApiResult.successResponse();
+        throw new NotFoundException("ORDER_DOES_NOT_EXIST");
     }
 
 

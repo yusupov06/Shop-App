@@ -1,7 +1,9 @@
 package uz.md.shopapp.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import uz.md.shopapp.domain.User;
 import uz.md.shopapp.dtos.ApiResult;
 import uz.md.shopapp.dtos.user.UserDto;
 import uz.md.shopapp.exceptions.NotFoundException;
@@ -9,6 +11,8 @@ import uz.md.shopapp.mapper.UserMapper;
 import uz.md.shopapp.repository.UserRepository;
 import uz.md.shopapp.service.contract.UserService;
 
+import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @Service
@@ -29,5 +33,25 @@ public class UserServiceImpl implements UserService {
     public ApiResult<Void> delete(UUID id) {
         userRepository.deleteById(id);
         return ApiResult.successResponse();
+    }
+
+    @Override
+    public ApiResult<UserDto> me() {
+
+        String phoneNumber = SecurityContextHolder.getContext().getAuthentication().getName();
+        if (Objects.isNull(phoneNumber))
+            throw new NotFoundException("USER_NOT_FOUND");
+
+        User user1 = userRepository
+                .findByPhoneNumber(phoneNumber)
+                .orElseThrow(() -> new NotFoundException("USER_NOT_FOUND"));
+
+        return ApiResult.successResponse(userMapper.toDto(user1));
+    }
+
+    @Override
+    public ApiResult<List<UserDto>> findAll() {
+        return ApiResult.successResponse(userMapper
+                .toDtoList(userRepository.findAll()));
     }
 }

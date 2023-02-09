@@ -284,7 +284,7 @@ public class OrderControllerTest {
         when(orderService.findAllBySort(sortRequest)).thenReturn(result);
 
         mvc.perform(MockMvcRequestBuilders
-                        .get(BASE_URL + "/sorting")
+                        .post(BASE_URL + "/sorting")
                         .header("Authorization", "Bearer " + accessToken)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(TestUtil.convertObjectToJsonBytes(sortRequest)))

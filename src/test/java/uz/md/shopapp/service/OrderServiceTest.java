@@ -137,7 +137,7 @@ public class OrderServiceTest {
         assertTrue(add.isSuccess());
         OrderDto data = add.getData();
         assertNotNull(data.getId());
-        assertEquals(data.getOverallPrice(), addDto.getOverallPrice());
+        assertEquals(data.getOverallPrice(), 2000.0);
         assertEquals(data.getStatus(), OrderStatus.PREPARING);
         assertEquals(data.getUserId(), addDto.getUserId());
         checkOrderProductAndAddDtoEquals(data.getOrderProducts(), orderProductAddDtos);
@@ -170,7 +170,7 @@ public class OrderServiceTest {
         assertTrue(add.isSuccess());
         OrderDto data = add.getData();
         assertNotNull(data.getId());
-        assertEquals(data.getOverallPrice(), addDto.getOverallPrice());
+        assertEquals(data.getOverallPrice(), 2000.0);
         assertEquals(data.getStatus(), OrderStatus.PREPARING);
         assertEquals(data.getUserId(), addDto.getUserId());
         checkOrderProductAndAddDtoEquals(data.getOrderProducts(), orderProductAddDtos);

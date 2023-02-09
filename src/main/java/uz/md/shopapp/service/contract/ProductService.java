@@ -24,4 +24,6 @@ public interface ProductService {
     ApiResult<List<ProductDto>> findAllBySimpleSearch(SimpleSearchRequest request);
 
     ApiResult<List<ProductDto>> findAllBySort(SimpleSortRequest request);
+
+    ApiResult<List<ProductDto>> findAllByPagination(String page);
 }

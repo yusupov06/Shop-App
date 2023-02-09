@@ -3,7 +3,7 @@ package uz.md.shopapp.service.impl;
 import jakarta.persistence.TypedQuery;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
-import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import uz.md.shopapp.domain.Category;
 import uz.md.shopapp.domain.Product;
@@ -123,9 +123,19 @@ public class ProductServiceImpl implements ProductService {
     public ApiResult<List<ProductDto>> findAllBySort(SimpleSortRequest request) {
         TypedQuery<Product> productTypedQuery = queryService
                 .generateSimpleSortQuery(Product.class, request);
-
         return ApiResult
                 .successResponse(productMapper
                         .toDtoList(productTypedQuery.getResultList()));
+    }
+
+    @Override
+    public ApiResult<List<ProductDto>> findAllByPagination(String page) {
+        String[] split = page.split("-");
+        int p = Integer.parseInt(split[0]);
+        int c = Integer.parseInt(split[1]);
+        return ApiResult.successResponse(productMapper
+                .toDtoList(productRepository
+                        .findAll(PageRequest.of(p, c))
+                        .getContent()));
     }
 }

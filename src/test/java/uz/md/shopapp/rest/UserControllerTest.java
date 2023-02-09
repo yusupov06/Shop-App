@@ -28,10 +28,7 @@ import uz.md.shopapp.repository.UserRepository;
 import uz.md.shopapp.service.contract.UserService;
 import uz.md.shopapp.util.TestUtil;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -137,13 +134,19 @@ public class UserControllerTest {
 
     @Test
     void shouldGetById() throws Exception {
-        UserDto userDto = new UserDto(UUID.randomUUID(), "firstname", "lastname", "+998931668648", false, Set.of(PermissionEnum.GET_PRODUCT));
+        UserDto userDto = new UserDto(UUID.randomUUID(),
+                "firstname",
+                "lastname",
+                "+998931668648",
+                false,
+                new ArrayList<>(),
+                Set.of(PermissionEnum.GET_PRODUCT));
 
         ApiResult<UserDto> result = ApiResult.successResponse(userDto);
         when(userService.findById(userDto.getId())).thenReturn(result);
 
         mvc.perform(MockMvcRequestBuilders
-                        .get(BASE_URL + "/1")
+                        .get(BASE_URL + "/"+userDto.getId())
                         .header("Authorization", "Bearer " + accessToken))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -158,11 +161,11 @@ public class UserControllerTest {
 
     @Test
     void shouldDelete() throws Exception {
-
+        UUID uuid = UUID.randomUUID();
         ApiResult<Void> result = ApiResult.successResponse();
-        when(userService.delete(ArgumentMatchers.any())).thenReturn(result);
+        when(userService.delete(uuid)).thenReturn(result);
         mvc.perform(MockMvcRequestBuilders
-                        .delete(BASE_URL + "/delete/1")
+                        .delete(BASE_URL + "/delete/"+uuid)
                         .header("Authorization", "Bearer " + accessToken))
                 .andDo(print())
                 .andExpect(status().isOk());

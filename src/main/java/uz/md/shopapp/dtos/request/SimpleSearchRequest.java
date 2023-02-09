@@ -11,6 +11,7 @@ import org.springframework.data.domain.Sort;
 @ToString
 @Builder
 public class SimpleSearchRequest {
+
     @NotNull(message = "search request fields is required")
     private String[] fields;
 

@@ -100,9 +100,9 @@ public class ProductController {
      * @param request simple search request
      * @return List of products
      */
-    @GetMapping("/search")
+    @PostMapping("/search")
     @ApiResponse(description = "Searching products")
-    public ApiResult<List<ProductDto>> getProductsBySimpleSearch(@RequestBody SimpleSearchRequest request) {
+    public ApiResult<List<ProductDto>> getProductsBySimpleSearch(@RequestBody @Valid SimpleSearchRequest request) {
         log.info("get products by simple search request");
         log.info("Request body {}", request);
         return productService.findAllBySimpleSearch(request);
@@ -114,12 +114,26 @@ public class ProductController {
      * @param request sorting products dto
      * @return List of products sorted
      */
-    @GetMapping("/sorting")
+    @PostMapping("/sorting")
     @ApiResponse(description = "List of products sorted")
     public ApiResult<List<ProductDto>> getProductsBySort(@RequestBody SimpleSortRequest request) {
         log.info("getProductsBySort");
         log.info("Request body is: {}", request);
         return productService.findAllBySort(request);
+    }
+
+    /**
+     * Simple Sorting for products
+     *
+     * @param page - pagination
+     * @return List of products sorted
+     */
+    @GetMapping("/page/{page}")
+    @ApiResponse(description = "List of products sorted")
+    public ApiResult<List<ProductDto>> getProductsByPagination(@PathVariable String page) {
+        log.info("getProductsBySort");
+        log.info("Request body is: {}", page);
+        return productService.findAllByPagination(page);
     }
 
 

@@ -79,10 +79,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public ApiResult<List<CategoryInfoDto>> getAllForInfo() {
-        return ApiResult.successResponse(
-                categoryMapper.toInfoDtoList(
-                        categoryRepository.findAllForInfo()
-                ));
+        return ApiResult.successResponse(categoryRepository.findAllForInfo());
     }
 
     @Override

@@ -91,7 +91,7 @@ public class AuthServiceImpl implements AuthService {
             try {
                 String userId = jwtTokenProvider.extractUserId(accessToken, true);
                 User user = userRepository.findById(UUID.fromString(userId)).orElseThrow(() ->
-                        new NotFoundException("EMAIL_NOT_EXIST"));
+                        new NotFoundException("USER_ID_NOT_FOUND"));
 
                 if (!user.isEnabled()
                         || !user.isAccountNonExpired()

@@ -9,6 +9,7 @@ import uz.md.shopapp.dtos.user.UserDto;
 import uz.md.shopapp.service.contract.UserService;
 import uz.md.shopapp.utils.AppConstants;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -40,6 +41,16 @@ public class UserController {
     @CheckAuth(permission = PermissionEnum.DELETE_USER)
     public ApiResult<Void> delete(@PathVariable UUID id){
         return userService.delete(id);
+    }
+
+    @GetMapping("/me")
+    public ApiResult<UserDto> me(){
+        return userService.me();
+    }
+
+    @GetMapping("/all")
+    public ApiResult<List<UserDto>> getAll() {
+        return userService.findAll();
     }
 
 }

@@ -109,7 +109,7 @@ public class OrderController {
      * @param request sorting orders dto
      * @return List of orders sorted
      */
-    @GetMapping("/sorting")
+    @PostMapping("/sorting")
     @ApiResponse(description = "List of orders sorted")
     public ApiResult<List<OrderDto>> getOrdersBySort(@RequestBody SimpleSortRequest request) {
         log.info("Get orders by sort request");

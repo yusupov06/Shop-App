@@ -12,8 +12,6 @@ import uz.md.shopapp.dtos.ApiResult;
 import uz.md.shopapp.dtos.ErrorData;
 import uz.md.shopapp.exceptions.*;
 
-import java.util.Arrays;
-
 
 @ControllerAdvice
 @RequiredArgsConstructor
@@ -22,9 +20,12 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
     private final MessageSource messageSource;
 
     @ExceptionHandler({AlreadyExistsException.class})
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ApiResult<ErrorData> handleAccessDeniedException(Exception ex) {
-        return ApiResult.errorResponse(Arrays.toString(ex.getStackTrace()),
-                messageSource.getMessage(ex.getMessage(), null, LocaleContextHolder.getLocale()),
+        return ApiResult.errorResponse(ex.getMessage(),
+                messageSource.getMessage(ex.getMessage(),
+                        null,
+                        LocaleContextHolder.getLocale()),
                 HttpStatus.FORBIDDEN.value());
     }
 
@@ -35,7 +36,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
             NotEnabledException.class})
     @ResponseStatus(HttpStatus.FORBIDDEN)
     public ApiResult<ErrorData> handleAllException(Exception ex) {
-        return ApiResult.errorResponse(Arrays.toString(ex.getStackTrace()),
+        return ApiResult.errorResponse(ex.getMessage(),
                 messageSource.getMessage(ex.getMessage(), null, LocaleContextHolder.getLocale()),
                 HttpStatus.FORBIDDEN.value());
     }
@@ -43,7 +44,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
     @ExceptionHandler({IllegalRequestException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ApiResult<ErrorData> handleIllegalRequest(Exception exception) {
-        return ApiResult.errorResponse(Arrays.toString(exception.getStackTrace()),
+        return ApiResult.errorResponse(exception.getMessage(),
                 messageSource.getMessage(exception.getMessage(), null, LocaleContextHolder.getLocale()),
                 HttpStatus.BAD_REQUEST.value());
     }
@@ -51,7 +52,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
     @ExceptionHandler({ConflictException.class})
     @ResponseStatus(HttpStatus.CONFLICT)
     public ApiResult<ErrorData> handleConflictException(Exception exception) {
-        return ApiResult.errorResponse(Arrays.toString(exception.getStackTrace()),
+        return ApiResult.errorResponse(exception.getMessage(),
                 messageSource.getMessage(exception.getMessage(), null, LocaleContextHolder.getLocale()),
                 HttpStatus.CONFLICT.value());
     }
@@ -59,7 +60,15 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
     @ExceptionHandler({NotFoundException.class})
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ApiResult<ErrorData> handleNotFoundException(Exception exception) {
-        return ApiResult.errorResponse(Arrays.toString(exception.getStackTrace()),
+        return ApiResult.errorResponse(exception.getMessage(),
+                messageSource.getMessage(exception.getMessage(), null, LocaleContextHolder.getLocale()),
+                HttpStatus.NOT_FOUND.value());
+    }
+
+    @ExceptionHandler({Exception.class})
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ApiResult<ErrorData> handleException(Exception exception) {
+        return ApiResult.errorResponse(exception.getMessage(),
                 messageSource.getMessage(exception.getMessage(), null, LocaleContextHolder.getLocale()),
                 HttpStatus.NOT_FOUND.value());
     }

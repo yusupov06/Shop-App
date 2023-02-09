@@ -2,8 +2,6 @@ package uz.md.shopapp.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.DynamicInsert;
-import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 import org.springframework.security.core.GrantedAuthority;
@@ -39,7 +37,7 @@ public class User extends AbsUUIDEntity implements UserDetails {
 
     private boolean enabled;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<Address> addresses;
 
     @ManyToOne

@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import uz.md.shopapp.domain.*;
@@ -25,6 +26,7 @@ import static uz.md.shopapp.domain.enums.PermissionEnum.*;
         havingValue = "true",
         matchIfMissing = true
 )
+@Profile("!test")
 public class DataLoader implements CommandLineRunner {
 
     private final RoleRepository roleRepository;
@@ -57,7 +59,7 @@ public class DataLoader implements CommandLineRunner {
     @Override
     public void run(String... args) {
         System.out.println("activeProfile = " + activeProfile);
-        if (Objects.equals("create", modeType) && !Objects.equals("test", activeProfile)) {
+        if (Objects.equals("create", modeType)) {
             addAdmin();
             saveUserRole();
             addCategories();

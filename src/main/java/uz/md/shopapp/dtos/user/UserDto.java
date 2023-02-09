@@ -2,7 +2,9 @@ package uz.md.shopapp.dtos.user;
 
 import lombok.*;
 import uz.md.shopapp.domain.enums.PermissionEnum;
+import uz.md.shopapp.dtos.address.AddressDto;
 
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -17,5 +19,6 @@ public class UserDto {
     private String lastName;
     private String phoneNumber;
     private boolean isAdmin;
+    private List<AddressDto> addresses;
     private Set<PermissionEnum> permissions;
 }
