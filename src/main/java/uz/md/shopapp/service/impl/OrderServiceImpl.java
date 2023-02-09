@@ -2,7 +2,6 @@ package uz.md.shopapp.service.impl;
 
 import jakarta.persistence.TypedQuery;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -39,7 +38,6 @@ public class OrderServiceImpl implements OrderService {
     private final OrderMapper orderMapper;
     private final OrderProductMapper orderProductMapper;
     private final QueryService queryService;
-    private final MessageSource messageSource;
     private final UserRepository userRepository;
     private final AddressMapper addressMapper;
     private final AddressRepository addressRepository;
@@ -56,7 +54,7 @@ public class OrderServiceImpl implements OrderService {
         return orderRepository
                 .findById(id)
                 .orElseThrow(() -> {
-                    throw new NotFoundException(messageSource.getMessage("ORDER_NOT_FOUND_WITH_ID", null, LocaleContextHolder.getLocale()) + id);
+                    throw new NotFoundException("ORDER_NOT_FOUND_WITH_ID");
                 });
     }
 
@@ -75,24 +73,19 @@ public class OrderServiceImpl implements OrderService {
         UUID userId = dto.getUserId();
 
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new NotFoundException(messageSource
-                        .getMessage("USER_NOT_FOUND", null,
-                                LocaleContextHolder.getLocale())));
+                .orElseThrow(() -> new NotFoundException("USER_NOT_FOUND"));
 
         Address address;
         if (dto.getAddressId() != null) {
             address = addressRepository
                     .findByIdAndUserId(dto.getAddressId(), user.getId())
-                    .orElseThrow(() -> new NotFoundException(messageSource
-                            .getMessage("ADDRESS_NOT_FOUND", null,
-                                    LocaleContextHolder.getLocale())));
+                    .orElseThrow(() -> new NotFoundException("ADDRESS_NOT_FOUND"));
         } else if (dto.getAddress() != null) {
             Address adding = addressMapper.fromAddDto(dto.getAddress());
             adding.setUser(user);
             address = addressRepository.save(adding);
         } else {
-            throw new IllegalRequestException(messageSource
-                    .getMessage("ADDRESS_MUST_BE_GIVEN_FOR_ORDER", null, LocaleContextHolder.getLocale()));
+            throw new IllegalRequestException("ADDRESS_MUST_BE_GIVEN_FOR_ORDER");
         }
 
         order.setUser(user);
@@ -107,9 +100,7 @@ public class OrderServiceImpl implements OrderService {
             orderProduct.setOrder(order);
             orderProduct.setProduct(productRepository
                     .findById(addDto.getProductId())
-                    .orElseThrow(() -> new NotFoundException(messageSource
-                            .getMessage("ORDER_PRODUCT_NOT_FOUND", null,
-                                    LocaleContextHolder.getLocale()))));
+                    .orElseThrow(() -> new NotFoundException("ORDER_PRODUCT_NOT_FOUND")));
             orderProductRepository.save(orderProduct);
             orderProducts.add(orderProduct);
         }
@@ -123,11 +114,10 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public ApiResult<Void> delete(Long id) {
-        if (!orderRepository.existsById(id))
-            throw new NotFoundException(messageSource
-                    .getMessage("ORDER_DOES_NOT_EXIST", null,
-                            LocaleContextHolder.getLocale()));
-        orderRepository.deleteById(id);
+        if (!orderRepository.existsById(id)) {
+            orderRepository.deleteById(id);
+            throw new NotFoundException("ORDER_DOES_NOT_EXIST");
+        }
         return ApiResult.successResponse();
     }
 

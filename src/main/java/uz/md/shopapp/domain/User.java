@@ -21,8 +21,7 @@ import java.util.List;
 @ToString
 @Entity
 @Table(name = "users")
-@DynamicInsert
-@DynamicUpdate
+
 @Builder
 @Where(clause = "deleted = false")
 @SQLDelete(sql = "UPDATE users SET deleted = true where id = ?")

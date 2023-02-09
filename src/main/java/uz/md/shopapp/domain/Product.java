@@ -15,8 +15,7 @@ import uz.md.shopapp.domain.template.AbsLongEntity;
 @ToString
 @Entity
 @Table
-@DynamicInsert
-@DynamicUpdate
+
 @Builder
 @Where(clause = "deleted = false")
 @SQLDelete(sql = "UPDATE product SET deleted = true where id = ?")

@@ -9,7 +9,7 @@ import uz.md.shopapp.IntegrationTest;
 import uz.md.shopapp.domain.Category;
 import uz.md.shopapp.domain.Product;
 import uz.md.shopapp.dtos.ApiResult;
-import uz.md.shopapp.dtos.category.CategoryAddDto;
+import uz.md.shopapp.dtos.category.CategoryAddDTO;
 import uz.md.shopapp.dtos.category.CategoryDto;
 import uz.md.shopapp.dtos.category.CategoryEditDto;
 import uz.md.shopapp.dtos.category.CategoryInfoDto;
@@ -63,7 +63,7 @@ public class CategoryServiceTest {
     @Transactional
     void shouldAddCategory() {
 
-        CategoryAddDto addDto = new CategoryAddDto("category", "description");
+        CategoryAddDTO addDto = new CategoryAddDTO("category", "description");
         ApiResult<CategoryDto> result = categoryService.add(addDto);
 
         assertTrue(result.isSuccess());
@@ -78,7 +78,7 @@ public class CategoryServiceTest {
     @Transactional
     void shouldNotAddWithAlreadyExistedName() {
         categoryRepository.save(category);
-        CategoryAddDto addDto = new CategoryAddDto(category.getName(), "user1");
+        CategoryAddDTO addDto = new CategoryAddDTO(category.getName(), "user1");
         assertThrows(AlreadyExistsException.class, () -> categoryService.add(addDto));
     }
 

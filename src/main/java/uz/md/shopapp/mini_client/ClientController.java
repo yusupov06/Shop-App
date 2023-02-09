@@ -20,7 +20,6 @@ import java.util.List;
 public class ClientController {
 
     public static final String BASE_URL = AppConstants.BASE_URL + "client";
-
     private static final String GET_ALL_CATEGORIES = "/get_all_categories";
     private static final String GET_PRODUCTS_BY_CATEGORY = "/get_products";
 
@@ -30,7 +29,6 @@ public class ClientController {
     public ApiResult<ClientDto> getKey(@RequestBody @Valid ClientAddDto addDto){
         return clientService.getKey(addDto);
     }
-
 
     @GetMapping(GET_ALL_CATEGORIES)
     public ApiResult<List<CategoryInfoDto>> getAllCategories(@RequestParam String access_key) {

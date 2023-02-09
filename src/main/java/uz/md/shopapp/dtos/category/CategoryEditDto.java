@@ -11,7 +11,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class CategoryEditDto extends CategoryAddDto {
+public class CategoryEditDto extends CategoryAddDTO {
 
     @NotNull(message = " category id must not be null")
     private Long id;

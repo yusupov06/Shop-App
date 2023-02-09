@@ -12,14 +12,16 @@ import org.springframework.http.ResponseEntity;
 @ToString
 public class ErrorData {
 
-    private String errorMsg;
+    private String devMsg;
+    private String userMsg;
 
     private Integer errorCode;
 
     private String fieldName;
 
-    public ErrorData(String errorMsg, Integer errorCode) {
-        this.errorMsg = errorMsg;
+    public ErrorData(String devMsg,String userMsg, Integer errorCode) {
+        this.devMsg = devMsg;
+        this.userMsg = userMsg;
         this.errorCode = errorCode;
     }
 }

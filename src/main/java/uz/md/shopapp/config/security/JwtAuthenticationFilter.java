@@ -16,6 +16,7 @@ import uz.md.shopapp.repository.UserRepository;
 import uz.md.shopapp.utils.AppConstants;
 
 import java.io.IOException;
+import java.util.Enumeration;
 import java.util.UUID;
 
 @Slf4j
@@ -47,7 +48,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private void setUserPrincipalIfAllOk(HttpServletRequest request) {
         String authorization = request.getHeader(AppConstants.AUTHORIZATION_HEADER);
-
+        Enumeration<String> headerNames = request.getHeaderNames();
+        System.out.println("headerNames = " + headerNames);
         if (authorization != null) {
             User user = getUserFromBearerToken(authorization);
             if (user != null) {

@@ -3,12 +3,11 @@ package uz.md.shopapp.controller;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import uz.md.shopapp.aop.annotation.CheckAuth;
 import uz.md.shopapp.domain.enums.PermissionEnum;
 import uz.md.shopapp.dtos.ApiResult;
-import uz.md.shopapp.dtos.category.CategoryAddDto;
+import uz.md.shopapp.dtos.category.CategoryAddDTO;
 import uz.md.shopapp.dtos.category.CategoryDto;
 import uz.md.shopapp.dtos.category.CategoryEditDto;
 import uz.md.shopapp.dtos.category.CategoryInfoDto;
@@ -72,7 +71,7 @@ public class CategoryController {
      */
     @PostMapping("/add")
     @CheckAuth(permission = PermissionEnum.ADD_CATEGORY)
-    public ApiResult<CategoryDto> add(@RequestBody @Valid CategoryAddDto dto) {
+    public ApiResult<CategoryDto> add(@RequestBody @Valid CategoryAddDTO dto) {
         log.info("adding category");
         log.info("Request body: {} ", dto);
         return categoryService.add(dto);

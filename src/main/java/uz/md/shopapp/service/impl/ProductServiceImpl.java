@@ -37,7 +37,7 @@ public class ProductServiceImpl implements ProductService {
         return productRepository
                 .findById(id)
                 .orElseThrow(() -> {
-                    throw new NotFoundException(messageSource.getMessage("PRODUCT_NOT_FOUND_WITH_ID", null, LocaleContextHolder.getLocale()) + id);
+                    throw new NotFoundException("PRODUCT_NOT_FOUND_WITH_ID");
                 });
     }
 
@@ -52,13 +52,13 @@ public class ProductServiceImpl implements ProductService {
     public ApiResult<ProductDto> add(ProductAddDto dto) {
 
         if (productRepository.existsByName(dto.getName()))
-            throw new AlreadyExistsException(messageSource.getMessage("PRODUCT_NAME_ALREADY_EXISTS", null, LocaleContextHolder.getLocale()));
+            throw new AlreadyExistsException("PRODUCT_NAME_ALREADY_EXISTS");
 
         Product product = productMapper.fromAddDto(dto);
 
         Category category = categoryRepository
                 .findById(dto.getCategoryId())
-                .orElseThrow(() -> new NotFoundException(messageSource.getMessage("CATEGORY_NOT_FOUND", null, LocaleContextHolder.getLocale())));
+                .orElseThrow(() -> new NotFoundException("CATEGORY_NOT_FOUND"));
 
         product.setCategory(category);
         return ApiResult
@@ -73,20 +73,17 @@ public class ProductServiceImpl implements ProductService {
         Product product = productRepository
                 .findById(editDto.getId())
                 .orElseThrow(() -> {
-                    throw new NotFoundException(messageSource
-                            .getMessage("PRODUCT_NOT_FOUND", null, LocaleContextHolder.getLocale()));
+                    throw new NotFoundException("PRODUCT_NOT_FOUND");
                 });
 
         if (productRepository.existsByNameAndIdIsNot(editDto.getName(), product.getId()))
-            throw new AlreadyExistsException(messageSource
-                    .getMessage("PRODUCT_NAME_ALREADY_EXISTS", null, LocaleContextHolder.getLocale()));
+            throw new AlreadyExistsException("PRODUCT_NAME_ALREADY_EXISTS");
 
         Product edited = productMapper.fromEditDto(editDto, product);
 
         edited.setCategory(categoryRepository
                 .findById(editDto.getCategoryId())
-                .orElseThrow(() -> new NotFoundException(messageSource
-                        .getMessage("CATEGORY_NOT_FOUND", null, LocaleContextHolder.getLocale()))));
+                .orElseThrow(() -> new NotFoundException("CATEGORY_NOT_FOUND")));
 
         return ApiResult
                 .successResponse(productMapper
@@ -96,8 +93,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ApiResult<Void> delete(Long id) {
         if (!productRepository.existsById(id))
-            throw new NotFoundException(messageSource
-                    .getMessage("PRODUCT_DOES_NOT_EXIST", null, LocaleContextHolder.getLocale()));
+            throw new NotFoundException("PRODUCT_DOES_NOT_EXIST");
         productRepository.deleteById(id);
         return ApiResult.successResponse();
     }
@@ -105,7 +101,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ApiResult<List<ProductDto>> getAllByCategory(Long id) {
         if (!categoryRepository.existsById(id))
-            throw new NotFoundException(messageSource.getMessage("CATEGORY_NOT_FOUND_WITH_ID", null, LocaleContextHolder.getLocale()) + id);
+            throw new NotFoundException("CATEGORY_NOT_FOUND_WITH_ID");
         return ApiResult.successResponse(
                 productMapper
                         .toDtoList(productRepository

@@ -11,6 +11,8 @@ public interface AuthService extends UserDetailsService {
 
     ApiResult<TokenDTO> login(UserLoginDto dto);
 
+    ApiResult<TokenDTO> refreshToken(String accessToken, String refreshToken);
+
     ApiResult<Void> activate(String activationCode);
 
 }

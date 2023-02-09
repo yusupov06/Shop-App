@@ -22,8 +22,6 @@ import java.util.UUID;
 @ToString
 @Entity
 @Table(name = "orders")
-@DynamicInsert
-@DynamicUpdate
 @Builder
 @Where(clause = "deleted = false")
 @SQLDelete(sql = "UPDATE orders SET deleted = true where id = ?")

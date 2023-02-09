@@ -2,8 +2,6 @@ package uz.md.shopapp.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.springframework.context.MessageSource;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 import uz.md.shopapp.domain.AccessKey;
 import uz.md.shopapp.domain.Category;
@@ -35,7 +33,6 @@ public class ClientServiceImpl implements ClientService {
     private final CategoryService categoryService;
     private final ProductService productService;
     private final AccessKeyRepository accessKeyRepository;
-    private final MessageSource messageSource;
     private final ClientMapper clientMapper;
     private final CategoryRepository categoryRepository;
     private final ClientRepository clientRepository;
@@ -45,13 +42,10 @@ public class ClientServiceImpl implements ClientService {
 
         AccessKey accessKey1 = accessKeyRepository
                 .findByAccess(accessKey)
-                .orElseThrow(() -> new NotFoundException(messageSource
-                        .getMessage("ACCESS_KEY_NOT_FOUND", null,
-                                LocaleContextHolder.getLocale())));
+                .orElseThrow(() -> new NotFoundException("ACCESS_KEY_NOT_FOUND"));
 
         if (!accessKey1.getValidTill().isAfter(LocalDateTime.now()))
-            throw new AccessKeyInvalidException(messageSource.getMessage("ACCESS_KEY_IS_INVALID", null,
-                    LocaleContextHolder.getLocale()));
+            throw new AccessKeyInvalidException("ACCESS_KEY_IS_INVALID");
 
         return categoryService.getAllForInfo();
     }
@@ -60,27 +54,20 @@ public class ClientServiceImpl implements ClientService {
     public ApiResult<List<ProductDto>> getAllProductsByCategory(String accessKey, String categoryName) {
         AccessKey accessKey1 = accessKeyRepository
                 .findByAccess(accessKey)
-                .orElseThrow(() -> new NotFoundException(messageSource
-                        .getMessage("ACCESS_KEY_NOT_FOUND", null,
-                                LocaleContextHolder.getLocale())));
+                .orElseThrow(() -> new NotFoundException("ACCESS_KEY_NOT_FOUND"));
 
         if (!accessKey1.getValidTill().isAfter(LocalDateTime.now()))
-            throw new AccessKeyInvalidException(messageSource.getMessage("ACCESS_KEY_IS_INVALID", null,
-                    LocaleContextHolder.getLocale()));
+            throw new AccessKeyInvalidException("ACCESS_KEY_IS_INVALID");
         Category category = categoryRepository
                 .findByName(categoryName)
-                .orElseThrow(() -> new NotFoundException(messageSource.getMessage("CATEGORY_NOT_FOUND", null,
-                        LocaleContextHolder.getLocale())));
+                .orElseThrow(() -> new NotFoundException("CATEGORY_NOT_FOUND"));
         return productService.getAllByCategory(category.getId());
     }
 
     @Override
     public ApiResult<ClientDto> getKey(ClientAddDto addDto) {
         if (clientRepository.existsByUsername(addDto.getUsername())) {
-            throw new AlreadyExistsException(messageSource.getMessage(
-                    "ACCESS_KEY_ALREADY_EXISTS",
-                    null,
-                    LocaleContextHolder.getLocale()));
+            throw new AlreadyExistsException("ACCESS_KEY_ALREADY_EXISTS");
         }
 
         Client client = clientMapper.fromAddDto(addDto);

@@ -21,7 +21,7 @@ import uz.md.shopapp.domain.Role;
 import uz.md.shopapp.domain.User;
 import uz.md.shopapp.domain.enums.PermissionEnum;
 import uz.md.shopapp.dtos.ApiResult;
-import uz.md.shopapp.dtos.category.CategoryAddDto;
+import uz.md.shopapp.dtos.category.CategoryAddDTO;
 import uz.md.shopapp.dtos.category.CategoryDto;
 import uz.md.shopapp.dtos.category.CategoryEditDto;
 import uz.md.shopapp.dtos.category.CategoryInfoDto;
@@ -140,7 +140,7 @@ public class CategoryControllerTest {
     void shouldAdd() throws Exception {
 
         accessToken = obtainAccessToken(phoneNumber, password);
-        CategoryAddDto addDto = new CategoryAddDto(
+        CategoryAddDTO addDto = new CategoryAddDTO(
                 "category",
                 "description");
         CategoryDto categoryDto = new CategoryDto(1L, addDto.getName(), addDto.getDescription());
@@ -166,7 +166,7 @@ public class CategoryControllerTest {
         userRepository.saveAndFlush(new User("ali", "ali", "+998931001122", passwordEncoder.encode("123"), role, true));
 
         accessToken = obtainAccessToken("+998931001122", "123");
-        CategoryAddDto addDto = new CategoryAddDto(
+        CategoryAddDTO addDto = new CategoryAddDTO(
                 "category",
                 "description");
 

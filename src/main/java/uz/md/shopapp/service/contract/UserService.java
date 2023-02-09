@@ -3,8 +3,10 @@ package uz.md.shopapp.service.contract;
 import uz.md.shopapp.dtos.ApiResult;
 import uz.md.shopapp.dtos.user.UserDto;
 
-public interface UserService {
-    ApiResult<UserDto> findById(Long id);
+import java.util.UUID;
 
-    ApiResult<Void> delete(Long id);
+public interface UserService {
+    ApiResult<UserDto> findById(UUID id);
+
+    ApiResult<Void> delete(UUID id);
 }

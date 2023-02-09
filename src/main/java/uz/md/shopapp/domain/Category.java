@@ -17,8 +17,7 @@ import java.util.Collection;
 @ToString
 @Entity
 @Table
-@DynamicInsert
-@DynamicUpdate
+
 @Builder
 @Where(clause = "deleted = false")
 @SQLDelete(sql = "UPDATE category SET deleted = true where id = ?")

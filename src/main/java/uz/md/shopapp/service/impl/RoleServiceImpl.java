@@ -1,7 +1,6 @@
 package uz.md.shopapp.service.impl;
 
 import org.springframework.context.MessageSource;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 import uz.md.shopapp.domain.Role;
 import uz.md.shopapp.dtos.ApiResult;
@@ -33,9 +32,9 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public ApiResult<RoleDTO> add(RoleAddDTO dto) {
-        if (roleRepository.existsByNameIgnoreCase(dto.getName()))
-            throw new AlreadyExistsException(messageSource
-                    .getMessage("ROLE_NAME_ALREADY_EXISTS", null, LocaleContextHolder.getLocale()));
+        if (roleRepository.existsByNameIgnoreCase(dto.getName())) {
+            throw new AlreadyExistsException("ROLE_NAME_ALREADY_EXISTS");
+        }
         Role role = roleMapper.fromAddDTO(dto);
         return ApiResult
                 .successResponse(roleMapper
@@ -56,9 +55,7 @@ public class RoleServiceImpl implements RoleService {
                 .successResponse(roleMapper
                         .toDto(roleRepository
                                 .findById(id)
-                                .orElseThrow(() -> new NotFoundException(messageSource
-                                        .getMessage("ROLE_NOT_FOUND_WITH_ID",
-                                                null, LocaleContextHolder.getLocale()) + id))));
+                                .orElseThrow(() -> new NotFoundException("ROLE_NOT_FOUND_WITH_ID"))));
     }
 
     @Override
@@ -66,9 +63,7 @@ public class RoleServiceImpl implements RoleService {
 
         Role role = roleRepository
                 .findById(dto.getId())
-                .orElseThrow(() -> new NotFoundException(messageSource
-                        .getMessage("ROLE_NOT_FOUND_WITH_ID", null,
-                                LocaleContextHolder.getLocale()) + dto.getId()));
+                .orElseThrow(() -> new NotFoundException("ROLE_NOT_FOUND_WITH_ID"));
 
         Role role1 = roleMapper.fromEditDto(role, dto);
         return ApiResult

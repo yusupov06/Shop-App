@@ -18,8 +18,7 @@ import java.util.Set;
 @ToString
 @Entity
 @Builder
-@DynamicInsert
-@DynamicUpdate
+
 @Where(clause = "deleted = false")
 @SQLDelete(sql = "update role SET deleted = true where id = ?")
 public class Role extends AbsIntegerEntity {

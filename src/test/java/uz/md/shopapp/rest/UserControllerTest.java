@@ -140,7 +140,7 @@ public class UserControllerTest {
         UserDto userDto = new UserDto(UUID.randomUUID(), "firstname", "lastname", "+998931668648", false, Set.of(PermissionEnum.GET_PRODUCT));
 
         ApiResult<UserDto> result = ApiResult.successResponse(userDto);
-        when(userService.findById(1L)).thenReturn(result);
+        when(userService.findById(userDto.getId())).thenReturn(result);
 
         mvc.perform(MockMvcRequestBuilders
                         .get(BASE_URL + "/1")

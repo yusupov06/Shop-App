@@ -9,6 +9,8 @@ import uz.md.shopapp.dtos.user.UserDto;
 import uz.md.shopapp.service.contract.UserService;
 import uz.md.shopapp.utils.AppConstants;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping(UserController.BASE_URL + "/")
 @RequiredArgsConstructor
@@ -25,7 +27,7 @@ public class UserController {
      */
     @GetMapping("/{id}")
     @CheckAuth(permission = PermissionEnum.GET_USER)
-    public ApiResult<UserDto> getById(@PathVariable Long id){
+    public ApiResult<UserDto> getById(@PathVariable UUID id){
         return userService.findById(id);
     }
 
@@ -36,7 +38,7 @@ public class UserController {
      */
     @DeleteMapping("/delete/{id}")
     @CheckAuth(permission = PermissionEnum.DELETE_USER)
-    public ApiResult<Void> delete(@PathVariable Long id){
+    public ApiResult<Void> delete(@PathVariable UUID id){
         return userService.delete(id);
     }
 

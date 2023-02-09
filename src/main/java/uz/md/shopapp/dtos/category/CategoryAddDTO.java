@@ -9,7 +9,7 @@ import lombok.*;
 @Getter
 @Setter
 @ToString
-public class CategoryAddDto {
+public class CategoryAddDTO {
 
     @NotBlank(message = "Category name must not be empty")
     private String name;

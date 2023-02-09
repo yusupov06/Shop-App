@@ -1,13 +1,11 @@
 package uz.md.shopapp.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import uz.md.shopapp.dtos.ApiResult;
 import uz.md.shopapp.dtos.TokenDTO;
 import uz.md.shopapp.dtos.user.UserLoginDto;
@@ -49,6 +47,15 @@ public class AuthController {
     ApiResult<TokenDTO> login(@RequestBody @Valid UserLoginDto dto) {
         log.info("Request body: {}", dto);
         return authService.login(dto);
+    }
+
+    @Operation(description = "Refresh token")
+    @GetMapping(value = "/refresh")
+    ApiResult<TokenDTO> refreshToken(@RequestHeader(value = "Authorization") String accessToken, @RequestHeader(value = "RefreshToken") String refreshToken) {
+        log.info("refresh token method : {}, {}", accessToken,refreshToken);
+        ApiResult<TokenDTO> result = authService.refreshToken(accessToken, refreshToken);
+        log.info("refresh token method : {}", result);
+        return result;
     }
 
 }

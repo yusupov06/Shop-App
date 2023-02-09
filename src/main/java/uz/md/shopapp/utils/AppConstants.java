@@ -12,7 +12,7 @@ public interface AppConstants {
 
     String AUTHORIZATION_HEADER = "Authorization";
 
-    String AUTHENTICATION_HEADER = "Authorization";
+    String AUTHENTICATION_HEADER = "Authentication";
 
     String[] OPEN_PAGES = {
             AuthController.BASE_URL + "/**",
