@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import uz.md.shopapp.aop.annotation.CheckAuth;
+import uz.md.shopapp.domain.enums.PermissionEnum;
 import uz.md.shopapp.dtos.ApiResult;
 import uz.md.shopapp.dtos.order.OrderAddDto;
 import uz.md.shopapp.dtos.order.OrderDto;
@@ -33,6 +35,7 @@ public class OrderController {
      * @return found order
      */
     @GetMapping("/by_id/{id}")
+    @CheckAuth(permission = PermissionEnum.GET_ORDER)
     public ApiResult<OrderDto> getById(@PathVariable Long id) {
         log.info("Getting by id {}", id);
         return orderService.findById(id);
@@ -46,6 +49,7 @@ public class OrderController {
      */
     @PostMapping("/add")
     @ResponseStatus(HttpStatus.CREATED)
+    @CheckAuth(permission = PermissionEnum.ADD_ORDER)
     public ApiResult<OrderDto> add(@RequestBody @Valid OrderAddDto dto) {
         log.info("adding order");
         log.info("Request body: {}", dto);
@@ -59,6 +63,7 @@ public class OrderController {
      * @return success if deleted or failure otherwise
      */
     @DeleteMapping("/delete/{id}")
+    @CheckAuth(permission = PermissionEnum.DELETE_ORDER)
     public ApiResult<Void> delete(@PathVariable Long id) {
         log.info("delete order by id {}", id);
         return orderService.delete(id);
@@ -71,6 +76,7 @@ public class OrderController {
      * @return List of orders
      */
     @GetMapping("/by_page/{pagination}")
+    @CheckAuth(permission = PermissionEnum.GET_ORDER)
     public ApiResult<List<OrderDto>> getAllByPage(@PathVariable String pagination) {
         log.info("getting all orders by pagination: {}", pagination);
         return orderService.getAllByPage(pagination);
@@ -85,6 +91,7 @@ public class OrderController {
      */
     @GetMapping("/status/{status}/{pagination}")
     @ApiResponse(description = "Getting orders by status")
+    @CheckAuth(permission = PermissionEnum.GET_ORDER)
     public ApiResult<List<OrderDto>> getOrdersByStatus(@PathVariable String status, @PathVariable String pagination) {
         log.info("Getting orders by status: {}", status);
         return orderService.getOrdersByStatus(status, pagination);
@@ -98,6 +105,7 @@ public class OrderController {
      */
     @GetMapping("/user/{userId}/{pagination}")
     @ApiResponse(description = "Getting orders by userId")
+    @CheckAuth(permission = PermissionEnum.GET_ORDER)
     public ApiResult<List<OrderDto>> getOrdersByUserId(@PathVariable UUID userId, @PathVariable String pagination) {
         log.info("getOrders by userId {} ", userId);
         return orderService.getOrdersByUserId(userId, pagination);
@@ -111,6 +119,7 @@ public class OrderController {
      */
     @PostMapping("/sorting")
     @ApiResponse(description = "List of orders sorted")
+    @CheckAuth(permission = PermissionEnum.GET_ORDER)
     public ApiResult<List<OrderDto>> getOrdersBySort(@RequestBody SimpleSortRequest request) {
         log.info("Get orders by sort request");
         log.info("Request body {}", request);

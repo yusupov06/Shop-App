@@ -29,4 +29,21 @@ public class AccessKey {
         this.client = client;
         this.validTill = LocalDateTime.now().plusDays(validTillInDays);
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof AccessKey)) {
+            return false;
+        }
+        return getId() != null && getId().equals(((AccessKey) o).getId());
+    }
+
+    @Override
+    public int hashCode() {
+
+        return getClass().hashCode();
+    }
 }

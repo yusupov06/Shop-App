@@ -4,6 +4,8 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import uz.md.shopapp.aop.annotation.CheckAuth;
+import uz.md.shopapp.domain.enums.PermissionEnum;
 import uz.md.shopapp.dtos.ApiResult;
 import uz.md.shopapp.dtos.role.RoleAddDTO;
 import uz.md.shopapp.dtos.role.RoleDTO;
@@ -28,6 +30,7 @@ public class RoleController {
      */
     @PostMapping("add")
     @ResponseStatus(HttpStatus.CREATED)
+    @CheckAuth(permission = PermissionEnum.ADD_ROLE)
     public ApiResult<RoleDTO> add(@RequestBody @Valid RoleAddDTO roleAddDTO) {
         return roleService.add(roleAddDTO);
     }
@@ -37,6 +40,7 @@ public class RoleController {
      * @return list of roles
      */
     @GetMapping("all")
+    @CheckAuth(permission = PermissionEnum.GET_ROLE)
     public ApiResult<List<RoleDTO>> getAll() {
         return roleService.getAll();
     }
@@ -47,6 +51,7 @@ public class RoleController {
      * @return found role
      */
     @GetMapping("{id}")
+    @CheckAuth(permission = PermissionEnum.GET_ROLE)
     public ApiResult<RoleDTO> getById(@PathVariable Integer id) {
         return roleService.getById(id);
     }
@@ -58,6 +63,7 @@ public class RoleController {
      */
     @PutMapping("edit")
     @ResponseStatus(HttpStatus.CREATED)
+    @CheckAuth(permission = PermissionEnum.EDIT_ROLE)
     public ApiResult<RoleDTO> edit(@RequestBody @Valid RoleEditDTO dto) {
         return roleService.edit(dto);
     }
@@ -69,6 +75,7 @@ public class RoleController {
      * @return true if role was deleted successfully or else false
      */
     @DeleteMapping("delete")
+    @CheckAuth(permission = PermissionEnum.DELETE_ROLE)
     public ApiResult<Boolean> delete(@RequestParam Integer id, @RequestParam Integer insteadOfRoleId) {
         return roleService.delete(id,insteadOfRoleId);
     }

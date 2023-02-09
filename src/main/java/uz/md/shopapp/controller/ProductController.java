@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import uz.md.shopapp.aop.annotation.CheckAuth;
+import uz.md.shopapp.domain.enums.PermissionEnum;
 import uz.md.shopapp.dtos.ApiResult;
 import uz.md.shopapp.dtos.product.ProductAddDto;
 import uz.md.shopapp.dtos.product.ProductDto;
@@ -34,6 +36,7 @@ public class ProductController {
      * @return list of products
      */
     @GetMapping("/category/{id}")
+    @CheckAuth(permission = PermissionEnum.GET_PRODUCT)
     public ApiResult<List<ProductDto>> getAllByCategory(@PathVariable Long id) {
         log.info("getAllByCategory called with category id {}", id);
         return productService.getAllByCategory(id);
@@ -46,6 +49,7 @@ public class ProductController {
      * @return found product
      */
     @GetMapping("/{id}")
+    @CheckAuth(permission = PermissionEnum.GET_PRODUCT)
     public ApiResult<ProductDto> getById(@PathVariable Long id) {
         log.info("getById called with id {}", id);
         return productService.findById(id);
@@ -60,6 +64,7 @@ public class ProductController {
     @PostMapping("/add")
     @ResponseStatus(HttpStatus.CREATED)
     @ApiResponse(description = "Add a product")
+    @CheckAuth(permission = PermissionEnum.ADD_PRODUCT)
     public ApiResult<ProductDto> add(@RequestBody @Valid ProductAddDto dto) {
         log.info("Product Add");
         log.info("Request body {}", dto);
@@ -75,6 +80,7 @@ public class ProductController {
     @PutMapping("/edit")
     @ResponseStatus(HttpStatus.CREATED)
     @ApiResponse(description = "edit product")
+    @CheckAuth(permission = PermissionEnum.EDIT_PRODUCT)
     public ApiResult<ProductDto> edit(@RequestBody @Valid ProductEditDto editDto) {
         log.info("edit product");
         log.info("Request body {}", editDto);
@@ -89,6 +95,7 @@ public class ProductController {
      */
     @DeleteMapping("/delete/{id}")
     @ApiResponse(description = "Delete a product")
+    @CheckAuth(permission = PermissionEnum.DELETE_PRODUCT)
     public ApiResult<Void> delete(@PathVariable Long id) {
         log.info("delete product with id {}", id);
         return productService.delete(id);
@@ -102,6 +109,7 @@ public class ProductController {
      */
     @PostMapping("/search")
     @ApiResponse(description = "Searching products")
+    @CheckAuth(permission = PermissionEnum.GET_PRODUCT)
     public ApiResult<List<ProductDto>> getProductsBySimpleSearch(@RequestBody @Valid SimpleSearchRequest request) {
         log.info("get products by simple search request");
         log.info("Request body {}", request);
@@ -116,6 +124,7 @@ public class ProductController {
      */
     @PostMapping("/sorting")
     @ApiResponse(description = "List of products sorted")
+    @CheckAuth(permission = PermissionEnum.GET_PRODUCT)
     public ApiResult<List<ProductDto>> getProductsBySort(@RequestBody SimpleSortRequest request) {
         log.info("getProductsBySort");
         log.info("Request body is: {}", request);
@@ -130,6 +139,7 @@ public class ProductController {
      */
     @GetMapping("/page/{page}")
     @ApiResponse(description = "List of products sorted")
+    @CheckAuth(permission = PermissionEnum.GET_PRODUCT)
     public ApiResult<List<ProductDto>> getProductsByPagination(@PathVariable String page) {
         log.info("getProductsBySort");
         log.info("Request body is: {}", page);

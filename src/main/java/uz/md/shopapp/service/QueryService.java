@@ -28,7 +28,8 @@ public class QueryService {
         Root<T> root = criteriaQuery.from(clazz);
         List<Predicate> predicates = new ArrayList<>();
         for (String field : searchRequest.getFields()) {
-            predicates.add(criteriaBuilder.like(criteriaBuilder.upper(root.get(field)), "%" + searchRequest.getKey().toUpperCase() + "%"));
+            predicates.add(criteriaBuilder.like(criteriaBuilder.upper(root.get(field)),
+                    "%" + searchRequest.getKey().toUpperCase() + "%"));
         }
 
         Predicate or = criteriaBuilder.or(predicates.toArray(Predicate[]::new));

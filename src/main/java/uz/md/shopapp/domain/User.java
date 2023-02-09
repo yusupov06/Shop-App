@@ -66,7 +66,7 @@ public class User extends AbsUUIDEntity implements UserDetails {
 
     @Override
     public int hashCode() {
-//        https://vladmihalcea.com/how-to-implement-equals-and-hashcode-using-the-jpa-entity-identifier/
+
         return getClass().hashCode();
     }
 

@@ -29,4 +29,22 @@ public class Address {
         this.street = street;
         this.city = city;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Address)) {
+            return false;
+        }
+        return getId() != null && getId().equals(((Address) o).getId());
+    }
+
+    @Override
+    public int hashCode() {
+
+        return getClass().hashCode();
+    }
+
 }

@@ -24,8 +24,12 @@ public enum PermissionEnum implements GrantedAuthority {
     ADD_ORDER,
     GET_ORDER,
     DELETE_ORDER,
-    EDIT_ORDER
+    EDIT_ORDER,
 
+    ADD_ROLE,
+    GET_ROLE,
+    DELETE_ROLE,
+    EDIT_ROLE
     ;
     @Override
     public String getAuthority() {
