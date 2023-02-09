@@ -1,5 +1,6 @@
 package uz.md.shopapp.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +12,8 @@ import uz.md.shopapp.domain.enums.PermissionEnum;
 import uz.md.shopapp.dtos.ApiResult;
 import uz.md.shopapp.dtos.order.OrderAddDto;
 import uz.md.shopapp.dtos.order.OrderDto;
+import uz.md.shopapp.dtos.product.ProductDto;
+import uz.md.shopapp.dtos.request.FilterRequest;
 import uz.md.shopapp.dtos.request.SimpleSortRequest;
 import uz.md.shopapp.service.contract.OrderService;
 import uz.md.shopapp.utils.AppConstants;
@@ -120,10 +123,20 @@ public class OrderController {
     @PostMapping("/sorting")
     @ApiResponse(description = "List of orders sorted")
     @CheckAuth(permission = PermissionEnum.GET_ORDER)
-    public ApiResult<List<OrderDto>> getOrdersBySort(@RequestBody SimpleSortRequest request) {
+    public ApiResult<List<OrderDto>> getOrdersBySort(@RequestBody @Valid SimpleSortRequest request) {
         log.info("Get orders by sort request");
         log.info("Request body {}", request);
         return orderService.findAllBySort(request);
     }
+
+    @PostMapping("/filter")
+    @Operation(description = "List of categories")
+    @CheckAuth(permission = PermissionEnum.GET_ORDER)
+    public ApiResult<List<OrderDto>> getOrdersByFilter(@RequestBody @Valid FilterRequest request) {
+        log.info("getProductsBySort");
+        log.info("Request body is: {}", request);
+        return orderService.findAllByFilter(request);
+    }
+
 
 }

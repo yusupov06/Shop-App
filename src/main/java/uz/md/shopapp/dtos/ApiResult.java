@@ -28,9 +28,9 @@ public class ApiResult<T> implements Serializable {
         this.success = success;
     }
 
-    private ApiResult(String errorMsg, String userMsg, Integer errorCode) {
+    private ApiResult(String devMsg, String userMsg, Integer errorCode) {
         this.success = false;
-        this.errors = Collections.singletonList(new ErrorData(errorMsg, userMsg, errorCode));
+        this.errors = Collections.singletonList(new ErrorData(devMsg, userMsg, errorCode));
     }
 
     private ApiResult(List<ErrorData> errors) {
@@ -46,8 +46,8 @@ public class ApiResult<T> implements Serializable {
         return new ApiResult<>(true);
     }
 
-    public static <E> ApiResult<E> errorResponse(String errorMsg, String userMsg, Integer errorCode) {
-        return new ApiResult<>(errorMsg, userMsg, errorCode);
+    public static <E> ApiResult<E> errorResponse(String devMsg, String userMsg, Integer errorCode) {
+        return new ApiResult<>(devMsg, userMsg, errorCode);
     }
 
 

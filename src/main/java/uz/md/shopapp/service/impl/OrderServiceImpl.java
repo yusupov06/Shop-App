@@ -10,6 +10,7 @@ import uz.md.shopapp.dtos.ApiResult;
 import uz.md.shopapp.dtos.order.OrderAddDto;
 import uz.md.shopapp.dtos.order.OrderDto;
 import uz.md.shopapp.dtos.order.OrderProductAddDto;
+import uz.md.shopapp.dtos.request.FilterRequest;
 import uz.md.shopapp.dtos.request.SimpleSortRequest;
 import uz.md.shopapp.exceptions.IllegalRequestException;
 import uz.md.shopapp.exceptions.NotFoundException;
@@ -167,5 +168,13 @@ public class OrderServiceImpl implements OrderService {
                         .toDtoList(orderRepository
                                 .findAllByUserId(userid,
                                         PageRequest.of(page[0], page[1])).getContent()));
+    }
+
+    @Override
+    public ApiResult<List<OrderDto>> findAllByFilter(FilterRequest request) {
+        TypedQuery<Order> typedQuery = queryService.generateFilterQuery(Order.class, request);
+        return ApiResult
+                .successResponse(orderMapper
+                        .toDtoList(typedQuery.getResultList()));
     }
 }

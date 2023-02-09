@@ -3,6 +3,7 @@ package uz.md.shopapp.service.contract;
 import uz.md.shopapp.dtos.ApiResult;
 import uz.md.shopapp.dtos.order.OrderAddDto;
 import uz.md.shopapp.dtos.order.OrderDto;
+import uz.md.shopapp.dtos.request.FilterRequest;
 import uz.md.shopapp.dtos.request.SimpleSearchRequest;
 import uz.md.shopapp.dtos.request.SimpleSortRequest;
 
@@ -63,4 +64,6 @@ public interface OrderService {
      * @return list of products
      */
     ApiResult<List<OrderDto>> getOrdersByUserId(UUID userid, String pagination);
+
+    ApiResult<List<OrderDto>> findAllByFilter(FilterRequest request);
 }

@@ -11,6 +11,7 @@ import uz.md.shopapp.dtos.ApiResult;
 import uz.md.shopapp.dtos.product.ProductAddDto;
 import uz.md.shopapp.dtos.product.ProductDto;
 import uz.md.shopapp.dtos.product.ProductEditDto;
+import uz.md.shopapp.dtos.request.FilterRequest;
 import uz.md.shopapp.dtos.request.SimpleSearchRequest;
 import uz.md.shopapp.dtos.request.SimpleSortRequest;
 import uz.md.shopapp.exceptions.AlreadyExistsException;
@@ -137,5 +138,13 @@ public class ProductServiceImpl implements ProductService {
                 .toDtoList(productRepository
                         .findAll(PageRequest.of(p, c))
                         .getContent()));
+    }
+
+    @Override
+    public ApiResult<List<ProductDto>> findAllByFilter(FilterRequest request) {
+        TypedQuery<Product> productTypedQuery = queryService.generateFilterQuery(Product.class, request);
+        return ApiResult
+                .successResponse(productMapper
+                        .toDtoList(productTypedQuery.getResultList()));
     }
 }

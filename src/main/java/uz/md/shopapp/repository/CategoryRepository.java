@@ -5,7 +5,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import uz.md.shopapp.domain.Category;
 import uz.md.shopapp.dtos.category.CategoryInfoDto;
-import uz.md.shopapp.views.CategoryView;
 
 import java.util.List;
 import java.util.Optional;

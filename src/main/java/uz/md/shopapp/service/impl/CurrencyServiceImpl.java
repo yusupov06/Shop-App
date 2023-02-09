@@ -11,6 +11,8 @@ import uz.md.shopapp.dtos.CurrencyResult;
 import uz.md.shopapp.dtos.request.CurrencyRequest;
 import uz.md.shopapp.service.contract.CurrencyService;
 
+import java.time.LocalDateTime;
+
 @Service
 @RequiredArgsConstructor
 public class CurrencyServiceImpl implements CurrencyService {
@@ -21,7 +23,9 @@ public class CurrencyServiceImpl implements CurrencyService {
     @Override
     public ApiResult<CurrencyResult> getCurrency(CurrencyRequest request) {
         try {
-            String str = currencyClient.getByNameAndDate(request.getCurrency(), request.getDateTime());
+            LocalDateTime dateTime = request.getDateTime();
+            String date = dateTime.getYear() + "-" + dateTime.getMonth().getValue() + "-" + dateTime.getDayOfMonth();
+            String str = currencyClient.getByNameAndDate(request.getCurrency(), date);
             Currency currency = objectMapper.readValue(str, Currency[].class)[0];
             Double rate = currency.getRate();
             Double total = request.getAmount() * rate;

@@ -12,6 +12,7 @@ import uz.md.shopapp.dtos.ApiResult;
 import uz.md.shopapp.dtos.product.ProductAddDto;
 import uz.md.shopapp.dtos.product.ProductDto;
 import uz.md.shopapp.dtos.product.ProductEditDto;
+import uz.md.shopapp.dtos.request.FilterRequest;
 import uz.md.shopapp.dtos.request.SimpleSearchRequest;
 import uz.md.shopapp.dtos.request.SimpleSortRequest;
 import uz.md.shopapp.service.contract.ProductService;
@@ -125,7 +126,7 @@ public class ProductController {
     @PostMapping("/sorting")
     @ApiResponse(description = "List of products sorted")
     @CheckAuth(permission = PermissionEnum.GET_PRODUCT)
-    public ApiResult<List<ProductDto>> getProductsBySort(@RequestBody SimpleSortRequest request) {
+    public ApiResult<List<ProductDto>> getProductsBySort(@RequestBody @Valid SimpleSortRequest request) {
         log.info("getProductsBySort");
         log.info("Request body is: {}", request);
         return productService.findAllBySort(request);
@@ -145,6 +146,16 @@ public class ProductController {
         log.info("Request body is: {}", page);
         return productService.findAllByPagination(page);
     }
+
+    @PostMapping("/filter")
+    @ApiResponse(description = "List of products filtered")
+    @CheckAuth(permission = PermissionEnum.GET_PRODUCT)
+    public ApiResult<List<ProductDto>> getProductsByFilter(@RequestBody @Valid FilterRequest request) {
+        log.info("getProductsBySort");
+        log.info("Request body is: {}", request);
+        return productService.findAllByFilter(request);
+    }
+
 
 
 }

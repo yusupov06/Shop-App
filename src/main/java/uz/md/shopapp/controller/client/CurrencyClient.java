@@ -12,9 +12,9 @@ import java.time.LocalDateTime;
 @FeignClient(name = "currencyClient", url = "https://cbu.uz/oz/arkhiv-kursov-valyut/json", configuration = FeignConfig.class)
 public interface CurrencyClient {
 
-    @RequestLine(value = "POST /{name}/{date}")
+    @RequestLine(value = "POST /{name}/{date}/")
     @Headers("Content-Type: application/json")
     String getByNameAndDate(@Param("name") String name,
-                              @Param("date") LocalDateTime date);
+                              @Param("date") String date);
 
 }
